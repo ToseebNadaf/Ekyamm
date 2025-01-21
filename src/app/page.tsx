@@ -1,113 +1,160 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { DoctorCard } from "@/components/ui/doctor-card";
+import { DoctorListItem } from "@/components/ui/doctor-list-item";
+import { BookingForm } from "@/components/booking-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  ChevronLeft,
+  Search,
+  SlidersHorizontal,
+  LayoutGrid,
+  List,
+} from "lucide-react";
+
+const MOCK_DOCTORS = [
+  {
+    id: 1,
+    name: "Dr. Tejas Sharma",
+    specialty: "Gynaecology",
+    fee: "₹1,500/-",
+    phone: "+91 98765 43210",
+    imageUrl:
+      "https://s3-alpha-sig.figma.com/img/1c4d/7c45/0fe6f87425abbc6c055967b55b1d6689?Expires=1738540800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HwonJH5UQz9Ajv~2ZRceA6MqajIcw0jyPlylrj2kqkv2oi5z1h7W0RF9l3BYmRjFGkqgy3WlIs9lkHsYck-bDRsOKpCHMbN0FphibE2RjhmTwoaRSZ1316V4obGKbRpIUgXBJd3t~HDDDDq2SZ~ATpHX4p3BpI5uGQbTIjDP5~o4WMnwBmeudg4L2M5dw1foyz1Mlk1CVciR~LuAzodvjqUdB-QZxTIUthtpugAdDLcuHbnE59d0b9Vwg13ffsuCQOrUFy614SONhm6Em4hBdIKqvnjDlqiocmsVAQk-zsLq7gpwTco2ZmaPw-t0LD0IVijkCwQoFMkyqwkaPTHPiA__",
+  },
+  {
+    id: 2,
+    name: "Dr. Priya Kapoor",
+    specialty: "Gynaecology",
+    fee: "₹1,000/-",
+    phone: "+91 98765 43210",
+    imageUrl:
+      "https://s3-alpha-sig.figma.com/img/8839/7fc4/bbfeae764f62321f13021d7edeae1f6d?Expires=1738540800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mwrXHfqhCrgKVmlkgnXrz-35TixHQCwTyovHEd1FoFRdPuO9~MQNdd8kR~PzCcHXZxSJtLyspapfEIdyiL7AOfFqg-hccQT-JG-MZTSDxzIwoGlmtwdwm1f5TvnM6VvY19RX33Gk6dHV3p1F0eFeORt9jpARzKJZqfBFcynzLadiJXlJqVLg7bx4j1nVlHYlyhe60WDVvK7gciyHe3~HnlzQm9wFA9K9oF58k1UqkO6tQ-MydvkngBk71cgJKuKYEaOkhPZ02SkZWmQjmxYhb0UVUvbGg3RgOdGJ9ikznljfdURMTcudvfotjzDb5S4bEvElsMzIYGk3-WuuMFTAqA__",
+  },
+  {
+    id: 3,
+    name: "Dr. Pranav Saxena",
+    specialty: "Gynaecology",
+    fee: "₹2,500/-",
+    phone: "+91 98765 43210",
+    imageUrl:
+      "https://s3-alpha-sig.figma.com/img/395d/ee16/580ee3379c0714fd58e1990e8c73f4b5?Expires=1738540800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=V6ZmIkdsVzJnDqLZyTg5QmyDIpDA0px1jcURangJGMdAAkNUheFVVVOTfC5FA-b8Fm-JluwQilcbekU1npXehpCO0EE5DNUfCbfZ3-yHkkXSKlODVJ3tfLSBV1B5kRVEEGcHB2tPqQ6fYd5B5k778iyUaFBpXwuJgO0jO3vgCMTJmhXirKWmLU1t8FH9xvMB4Dv5qqFr9dsRPah~iE-tInKtCysYxszsMUkurCc2xAPO2K0pwo8i9dU-XRq8r2h~aZ1T79wUbbr9nKbw7KFzh8jkeK-2VNnQOEvE5LsFWlQfQ0psF8yZ5dcFO-E8W6FJOpdnLx2HnPN3kCkMTvY~eQ__",
+  },
+  {
+    id: 4,
+    name: "Dr. Toshib Bagde",
+    specialty: "Gynaecology",
+    fee: "₹3,500/-",
+    phone: "+91 98765 43210",
+    imageUrl:
+      "https://s3-alpha-sig.figma.com/img/dab7/9c93/0dfc2d8859b84bb69d922fd7d106e1b2?Expires=1738540800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=AHLl38BBZ1jncVELdOyVquurn1kxbB4xLVTq8zogRSibiqyP3Lm4eYPHlxqTRCLL1yECmtw7rvGKP9WZA7X9PWyTyDT~zf0Grjv4W-XiQqs1CADMN5RaHsQ-Gqak-nJtoKia-qMp1HJHOnAxIKEMbuvPNLi22EaeQKQeJwltvcMknXbysGZI5WiZfUi29utrJ-8SFJoMkGjvdqwDXs5tBQaC4Xvp8wBhynpEihTJzQpa7KUkCV487Ye2VgfVi98hO0Le7-HIQycxUKYJt4zalJCdKLJm9aB-6b7BiNiycA08xSlCJa2GfJXTTuC0zYlzpGZsZCCZgfdwfFb-GIAI5w__",
+  },
+];
 
 export default function Home() {
+  const [view, setView] = useState<"grid" | "list" | "booking">("grid");
+  const [selectedDoctor, setSelectedDoctor] = useState<
+    (typeof MOCK_DOCTORS)[0] | null
+  >(null);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-gradient-to-b from-gradientTop to-gradientBottom">
+      <header className="sticky top-0 z-10 bg-white px-4 py-3">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setView(view === "booking" ? "grid" : "grid")}
+            className="text-[#262626]"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <h1 className="text-sm font-semibold text-[#262626]">
+            {view === "booking"
+              ? "Schedule Session"
+              : "Available Psychologists"}
+          </h1>
         </div>
-      </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        {view !== "booking" && (
+          <div className="mt-4 flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7d7d7d]" />
+              <Input
+                placeholder="Search Psychologists..."
+                className="h-10 rounded-[10px] border-[#d9d9d9] bg-white text-[14px] placeholder:text-[#9b9b9b]"
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setView(view === "grid" ? "list" : "grid")}
+              className="h-10 w-10 rounded-[10px] border-[#d9d9d9]"
+            >
+              {view === "grid" ? (
+                <List className="h-5 w-5 text-[#262626]" />
+              ) : (
+                <LayoutGrid className="h-5 w-5 text-[#262626]" />
+              )}
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-10 w-10 rounded-[10px] border-[#d9d9d9]"
+            >
+              <SlidersHorizontal className="h-5 w-5 text-[#262626]" />
+            </Button>
+          </div>
+        )}
+      </header>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <main className="p-4">
+        {view === "booking" && selectedDoctor ? (
+          <BookingForm
+            patientName="Shubham Naik"
+            patientPhone="+91 98765 43210"
+            doctorName={selectedDoctor.name}
+            doctorPhone={selectedDoctor.phone}
+            onCancel={() => {
+              setView("grid");
+              setSelectedDoctor(null);
+            }}
+            onConfirm={(data) => {
+              console.log("Booking confirmed:", data);
+              setView("grid");
+              setSelectedDoctor(null);
+            }}
+          />
+        ) : view === "grid" ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {MOCK_DOCTORS.map((doctor) => (
+              <DoctorCard
+                key={doctor.id}
+                {...doctor}
+                onBookNow={() => {
+                  setSelectedDoctor(doctor);
+                  setView("booking");
+                }}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {MOCK_DOCTORS.map((doctor) => (
+              <DoctorListItem
+                key={doctor.id}
+                {...doctor}
+                onBookNow={() => {
+                  setSelectedDoctor(doctor);
+                  setView("booking");
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
