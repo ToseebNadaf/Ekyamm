@@ -15,12 +15,12 @@ export function DoctorCard({
   onBookNow,
 }: DoctorCardProps) {
   return (
-    <div className="overflow-hidden rounded-[32px] bg-white p-4">
+    <div className="overflow-hidden rounded-[20px] bg-white p-4">
       <div className="aspect-square overflow-hidden rounded-[20px]">
         <img
           src={imageUrl || "/placeholder.svg"}
           alt={name}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover rounded-[20px]"
         />
       </div>
       <div className="mt-2 space-y-1 text-center">
