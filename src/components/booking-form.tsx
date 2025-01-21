@@ -98,7 +98,7 @@ export function BookingForm({
             Session Type
           </h3>
           <Select value={sessionType} onValueChange={setSessionType}>
-            <SelectTrigger className="w-full rounded-[10px] bg-white">
+            <SelectTrigger className="w-full rounded-[7.26px] bg-white">
               <SelectValue placeholder="Select session type" />
             </SelectTrigger>
             <SelectContent>
@@ -142,7 +142,7 @@ export function BookingForm({
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
-                  className={`w-full justify-start rounded-[10px] bg-white text-left font-normal ${
+                  className={`w-full justify-start rounded-[7.26px] bg-white text-left font-normal ${
                     !date && "text-muted-foreground"
                   }`}
                 >
@@ -171,7 +171,7 @@ export function BookingForm({
                 type="time"
                 value={sessionTime}
                 onChange={(e) => setSessionTime(e.target.value)}
-                className="rounded-[10px] bg-white"
+                className="rounded-[7.26px] bg-white"
               />
             </div>
           </div>
@@ -186,7 +186,7 @@ export function BookingForm({
               value={onlineLink}
               onChange={(e) => setOnlineLink(e.target.value)}
               placeholder="Add Online Session Link or WhatsApp Number"
-              className="rounded-[10px] bg-white text-[12px] font-medium"
+              className="rounded-[7.26px] bg-white text-[12px] font-medium"
             />
           </div>
         )}
@@ -198,7 +198,7 @@ export function BookingForm({
           <textarea
             value={sessionDetails}
             onChange={(e) => setSessionDetails(e.target.value)}
-            className="w-full rounded-xl border-gray-200 bg-white focus:border-[#E17CFD] focus:ring-[#E17CFD] p-3 text-[12px] font-medium"
+            className="w-full rounded-[7.26px] border-gray-200 bg-white focus:border-[#E17CFD] focus:ring-[#E17CFD] p-3 text-[12px] font-medium"
             rows={4}
             placeholder="Enter session details here"
           />
