@@ -117,7 +117,10 @@ export function TimeSlots({ date, onSelect }: TimeSlotsProps) {
         >
           Cancel
         </Button>
-        <Button className="flex-1 rounded-[8px] bg-gradient-to-r from-[#BBA3E4] to-[#E7A1A0] text-white hover:opacity-90 text-[14px] font-medium">
+        <Button
+          disabled
+          className="flex-1 rounded-[8px] bg-gradient-to-r from-[#BBA3E4] to-[#E7A1A0] text-white hover:opacity-90 text-[14px] font-medium"
+        >
           Confirm
         </Button>
       </div>

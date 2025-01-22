@@ -174,6 +174,7 @@ export function BookingForm({
             Cancel
           </Button>
           <Button
+            disabled
             onClick={() =>
               onConfirm({
                 sessionType,
