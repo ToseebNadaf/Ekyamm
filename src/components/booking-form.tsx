@@ -13,14 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { SessionScheduler } from "./session-scheduler";
 
 interface BookingFormProps {
   patientName: string;
@@ -45,6 +38,14 @@ export function BookingForm({
   const [sessionTime, setSessionTime] = useState("");
   const [sessionDetails, setSessionDetails] = useState("");
   const [onlineLink, setOnlineLink] = useState("");
+
+  const handleSchedulerChange = (data: {
+    date: Date | undefined;
+    sessionTime: string;
+  }) => {
+    setDate(data.date);
+    setSessionTime(data.sessionTime);
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -133,48 +134,8 @@ export function BookingForm({
           </RadioGroup>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <h3 className="mb-2 text-sm font-medium text-gray-500">
-              Session Date
-            </h3>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={`w-full justify-start rounded-[7.26px] bg-white text-left font-normal ${
-                    !date && "text-muted-foreground"
-                  }`}
-                >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  <div className="text-[12px]">
-                    {date ? format(date, "dd/MM/yyyy") : "11/12/2024"}
-                  </div>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <CalendarComponent
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-medium text-gray-500">
-              Session Time Slot
-            </h3>
-            <div className="relative">
-              <Input
-                type="time"
-                value={sessionTime}
-                onChange={(e) => setSessionTime(e.target.value)}
-                className="rounded-[7.26px] bg-white"
-              />
-            </div>
-          </div>
+        <div>
+          <SessionScheduler onChange={handleSchedulerChange} />
         </div>
 
         {sessionMode === "online" && (
@@ -213,7 +174,6 @@ export function BookingForm({
             Cancel
           </Button>
           <Button
-            disabled
             onClick={() =>
               onConfirm({
                 sessionType,

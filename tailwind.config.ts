@@ -10,6 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
+        rose: {
+          300: "#CC627B",
+        },
         gradientTop: "#F4E9FF",
         gradientBottom: "#FFD4CF",
         background: "hsl(var(--background))",

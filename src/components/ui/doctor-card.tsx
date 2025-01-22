@@ -15,8 +15,8 @@ export function DoctorCard({
   onBookNow,
 }: DoctorCardProps) {
   return (
-    <div className="overflow-hidden rounded-[20px] bg-white p-4">
-      <div className="aspect-square overflow-hidden rounded-[20px]">
+    <div className="rounded-[20px] bg-white p-4">
+      <div className="aspect-square rounded-[20px]">
         <img
           src={imageUrl || "/placeholder.svg"}
           alt={name}

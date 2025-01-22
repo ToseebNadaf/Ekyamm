@@ -26,7 +26,7 @@ export function DoctorListItem({
 
   return (
     <div
-      className="overflow-hidden rounded-[12px] bg-white shadow-sm 
+      className="rounded-[12px] bg-white shadow-sm 
     w-full sm:max-w-[400px] md:max-w-[600px] lg:max-w-[800px] xl:max-w-[1000px] mx-auto"
     >
       <button
